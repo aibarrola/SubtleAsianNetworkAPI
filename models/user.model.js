@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema ({
     required: true,
     unique: true
   },
-  hashedpassword: {
+  hashedPassword: {
     type: String,
     required: true,
   },
@@ -29,4 +29,3 @@ const userSchema = new mongoose.Schema ({
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-module.exports = Comment;
