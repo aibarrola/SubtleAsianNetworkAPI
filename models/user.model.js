@@ -13,7 +13,11 @@ const userSchema = new mongoose.Schema ({
   },
   hashedPassword: {
     type: String,
-    required: true,
+    required: true
+  },
+  date:{
+    type: Date,
+    required: true
   },
   email: {
     type: String,

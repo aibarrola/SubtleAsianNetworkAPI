@@ -8,9 +8,10 @@ router.route('/register').post((req,res)=>{
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
+    const date = req.body.date;
     const admin = false;
     let hashedPassword = bcrypt.hashSync(req.body.password,BCRYPT_SALT_ROUNDS);
-    const newUser = new User({firstName, lastName,hashedPassword, email,admin});
+    const newUser = new User({firstName, lastName,hashedPassword, date, email,admin});
 
     newUser.save()
     .then(() => res.json('User added!'))
