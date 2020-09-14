@@ -2,7 +2,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 let User = require('../models/user.model');
 
-router.route('/updateInfo1/:userID').post((req,res) => {
+router.route('/1/:userID').post((req,res) => {
   const userID = req.params.userID;
   const school = req.body.school;
   const profession = req.body.profession;
@@ -15,7 +15,7 @@ router.route('/updateInfo1/:userID').post((req,res) => {
   });
 });
 
-router.route('/updateInfo2/:userID').post((req, res) => {
+router.route('/2/:userID').post((req, res) => {
   const userID = req.params.userID;
   const location = req.body.location;
   const interests = req.body.interests;
