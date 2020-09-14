@@ -14,7 +14,7 @@ router.route('/register').post((req,res)=>{
     const newUser = new User({firstName, lastName,hashedPassword, date, email,admin});
 
     newUser.save()
-    .then(() => res.json('User added!'))
+    .then(() => res.json({userID: newUser._id}))
     .catch(err=>res.status(400).json('Error: ' +err));
 });
 

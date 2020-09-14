@@ -4,12 +4,10 @@ const userSchema = new mongoose.Schema ({
   firstName: {
     type: String,
     required: true,
-    unique: true
   },
   lastName:{
     type: String,
     required: true,
-    unique: true
   },
   hashedPassword: {
     type: String,
@@ -22,12 +20,37 @@ const userSchema = new mongoose.Schema ({
   email: {
     type: String,
     required: true,
-    unique: true
   },
   admin: {
     type: Boolean,
     default: false
+  },
+  school: {
+    type: String,
+    required: true,
+    default: ''
+  },
+  profession: {
+    type: String,
+    default: ''
+  },
+  ethnicity: {
+    type: String,
+    default: ''
+  },
+  location: {
+    type: String,
+    default: ''
+  },
+  interests: {
+    type: String,
+    default: ''
+  },
+  bio: {
+    type: String,
+    default: ''
   }
+
 })
 
 const User = mongoose.model('User', userSchema);
