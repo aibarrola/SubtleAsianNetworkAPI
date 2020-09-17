@@ -27,20 +27,19 @@ mongoose.connection.on('error', console.error.bind(console, 'Connection error: '
 const userRouter = require('./routes/users');
 app.use('/users', userRouter);
 
-// Create profile routes
-const profileRouter = require('./routes/updateUser');
-app.use('/updateProfile', profileRouter);
-
 // Temp route to check current users
 app.get('/getall', (req, res) => {
-  User.find({}, (err, result) => {
-    if(err) {
-      result.send(err);
-    } else {
-      res.json(result);
-    }
-  });
+  User.find({})
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
 });
+
+// Temp route to delete all users
+app.delete('/getall', (req, res) => {
+  User.deleteMany({})
+    .then(res.json({msg: 'All users deleted'}))
+    .catch(err => res.send(err));
+})
 
 // process.env.PORT is an environment variable. Needs to be setup with "dotenv"
 // Contact John for help

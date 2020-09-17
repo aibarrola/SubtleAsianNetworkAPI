@@ -15,11 +15,12 @@ const userSchema = new mongoose.Schema ({
   },
   birthDate:{
     type: Date,
-    required: true
+    // required: true
   },
   email: {
     type: String,
     required: true,
+    unique: true
   },
   admin: {
     type: Boolean,
@@ -27,7 +28,6 @@ const userSchema = new mongoose.Schema ({
   },
   school: {
     type: String,
-    required: true,
     default: ''
   },
   profession: {
@@ -49,6 +49,10 @@ const userSchema = new mongoose.Schema ({
   bio: {
     type: String,
     default: ''
+  },
+  register_date: {
+    type: Date,
+    default: Date.now
   }
 
 })
