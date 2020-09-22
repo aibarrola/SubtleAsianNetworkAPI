@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 
 // MONGO_URI is an environment variable. Use the "dotenv" package to set this up on your local system.
 // If you need help with this, contact John
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false});
 mongoose.connection.on('connected', () => {
   console.log("Successfully connected to MongoDB");
 });
@@ -26,13 +26,6 @@ mongoose.connection.on('error', console.error.bind(console, 'Connection error: '
 // User routes
 const userRouter = require('./routes/users');
 app.use('/users', userRouter);
-
-// Temp route to check current users
-app.get('/getall', (req, res) => {
-  User.find({})
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
-});
 
 // Temp route to delete all users
 app.delete('/getall', (req, res) => {

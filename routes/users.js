@@ -33,8 +33,6 @@ router.route('/register').post((req,res)=>{
     const { firstName, lastName, email, birthDate, password} = req.body;
 
     // Validation
-    // TOOK OUT BIRTHDATE VALIDATION FOR TESTING
-    // DONT FORGET TO PUT IT BACK IN (NOTE TO SELF - JOHN)
     if (!firstName || !lastName || !email || !password) {
         return res.status(400).json({msg: 'Please enter all fields'});
     }
@@ -77,7 +75,6 @@ router.route('/register').post((req,res)=>{
                                     user_id: user.id,
                                     firstName: user.firstName,
                                     lastName: user.lastName,
-                                    hashedPassword: user.hashedPassword,
                                     email: user.email
                             }})
                         }
