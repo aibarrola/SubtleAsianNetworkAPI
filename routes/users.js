@@ -11,7 +11,7 @@ const auth = require('./middleware/auth');
 // @access  Public
 router.route('/').get((req, res) => {
     User.find({})
-        .select('-password')
+        .select('-hashedPassword')
         .then( users => res.send(users));
 })
 
@@ -20,7 +20,7 @@ router.route('/').get((req, res) => {
 // @access  Private
 router.route('/:id').get(auth, (req, res) => {
     User.findById(req.params.id)
-        .select('-password')
+        .select('-hashedPassword')
         .then( user => res.json(user));
 })
 
