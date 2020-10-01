@@ -18,7 +18,7 @@ router.route('/').get((req, res) => {
 // @Route   GET /users/:id
 // @desc    Return a specific user
 // @access  Private
-router.route('/:id').get(auth, (req, res) => {
+router.route('/:id').get((req, res) => {
     User.findById(req.params.id)
         .select('-hashedPassword')
         .then( user => res.json(user));
