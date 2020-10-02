@@ -17,7 +17,7 @@ router.route('/').get((req, res) => {
 
 // @Route   GET /users/:id
 // @desc    Return a specific user
-// @access  Private
+// @access  Public
 router.route('/:id').get((req, res) => {
     User.findById(req.params.id)
         .select('-hashedPassword')
