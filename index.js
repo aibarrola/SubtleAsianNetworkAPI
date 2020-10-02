@@ -8,7 +8,12 @@ let User = require('./models/user.model');
 require('dotenv').config();
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: '*'
+}
+
+app.use(cors({corsOptions}));
 
 app.get('/', (req, res) => {
   res.send('You made it to the api');
