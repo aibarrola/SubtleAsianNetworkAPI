@@ -17,9 +17,7 @@ app.get('/', (req, res) => {
 
 // MONGO_URI is an environment variable. Use the "dotenv" package to set this up on your local system.
 // If you need help with this, contact John
-// mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false});
-const MONGOOSE_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@noodlezdatabase.xbwqz.mongodb.net/<dbname>?retryWrites=true&w=majority`
-mongoose.connect(MONGOOSE_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false});
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false});
 mongoose.connection.on('connected', () => {
   console.log("Successfully connected to MongoDB");
 });
