@@ -14,7 +14,6 @@ app.get('/', (req, res) => {
   res.send('You made it to the api');
 });
 
-
 // MONGO_URI is an environment variable. Use the "dotenv" package to set this up on your local system.
 // If you need help with this, contact John
 const MONGOOSE_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@noodlezdatabase.xbwqz.mongodb.net/<dbname>?retryWrites=true&w=majority`
