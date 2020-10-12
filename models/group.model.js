@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const userSchema = require('./user.model').schema;
-const postSchema = requre('./post.model').schema;
+const postSchema = require('./post.model').schema;
 
 const groupSchema = new mongoose.Schema ({
   groupName: {
@@ -9,12 +9,15 @@ const groupSchema = new mongoose.Schema ({
     unique: true
   },
   description:{
-    type: String
+    type: String,
+    required: true
   },
   links:[String],
   posts: [postSchema],
-  admin: [userSchema],
-  users: [userSchema]
+  admin: [{type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User'}],
+  users: [{type: mongoose.Schema.Types.ObjectId, 
+          ref: 'User'}]
 })
 
 const Group = mongoose.model('Group', groupSchema);
