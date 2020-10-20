@@ -30,7 +30,6 @@ router.route('/add').post((req,res)=>{
 // @desc    Adds a post to a specific group
 // @access  Private BUT PUBLIC FOR TESTING NOW
 router.route('/post/:id/add').post(/**auth,**/(req,res)=>{
-    const id = req.params.id;
     const{author, date, type, content} = req.body;
 
     Group.findById(req.params.id)
@@ -45,6 +44,83 @@ router.route('/post/:id/add').post(/**auth,**/(req,res)=>{
             res.status(400).json({ msg: 'User not authenticated to post'})
         }**/
     })
+    .catch(err => res.status(400).json('Error: ' + err))
+
+})
+
+// @Route   GET /groups/:id
+// @desc    Return a specific group
+// @access  Public
+router.route('/:id').get((req, res) => {
+    Group.findById(req.params.id)
+        .populate('users', '-hashedPassword')
+        .exec((err,group)=>{
+            res.json(group);
+        })
+
+})
+
+// @Route   POST groups/link/:id/add
+// @desc    Adds a link to a specific group
+// @access  Private BUT PUBLIC FOR TESTING NOW
+router.route('/link/:id/add').post(/**auth,**/(req,res)=>{
+
+    Group.findById(req.params.id)
+    .then(group =>{
+       /**  if(group.users.include(req.user.user_id)){**/
+        const links = group.links;
+        links.push(req.body.link);
+        group.save()
+        .then(()=>res.json("Link added"))
+        .catch(err => res.status(400).json('Error: ' + err))
+       /**  }else{
+            res.status(400).json({ msg: 'User not authenticated to post'})
+        }**/
+    })
+    .catch(err => res.status(400).json('Error: ' + err))
+
+})
+
+// @Route   POST /groups/todo/:id/add
+// @desc    Adds a todo to a specific group
+// @access  Private BUT PUBLIC FOR TESTING NOW
+router.route('/todo/:id/add').post(/**auth,**/(req,res)=>{
+    const{description, checked} = req.body;
+
+    Group.findById(req.params.id)
+    .then(group =>{
+       /**  if(group.users.include(req.user.user_id)){**/
+        const toDos = group.toDos;
+        toDos.push({description,checked});
+        group.save()
+        .then(()=>res.json("Todo added"))
+        .catch(err => res.status(400).json('Error: ' + err))
+       /**  }else{
+            res.status(400).json({ msg: 'User not authenticated to post'})
+        }**/
+    })
+    .catch(err => res.status(400).json('Error: ' + err))
+
+})
+
+// @Route   POST /groups/user/:id/add
+// @desc    Adds a user to a specific group
+// @access  Private BUT PUBLIC FOR TESTING NOW
+router.route('/user/:id/add').post(/**auth,**/(req,res)=>{
+
+    Group.findById(req.params.id)
+    .then(group =>{
+       /**  if(group.users.include(req.user.user_id)){**/
+        const users = group.users;
+        users.push(req.body.userId);
+        group.save()
+        .then(()=>res.json("User added"))
+        .catch(err => res.status(400).json('Error: ' + err))
+       /**  }else{
+            res.status(400).json({ msg: 'User not authenticated to post'})
+        }**/
+    })
+    .catch(err => res.status(400).json('Error: ' + err))
 
 })
 

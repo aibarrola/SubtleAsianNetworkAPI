@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const userSchema = require('./user.model').schema;
 const postSchema = require('./post.model').schema;
 
+const toDoSchema = new mongoose.Schema({
+  description: String,
+  checked: Boolean
+})
 const groupSchema = new mongoose.Schema ({
   groupName: {
     type: String,
@@ -13,6 +17,7 @@ const groupSchema = new mongoose.Schema ({
     required: true
   },
   links:[String],
+  toDos:[toDoSchema],
   posts: [postSchema],
   admin: [{type: mongoose.Schema.Types.ObjectId, 
     ref: 'User'}],
