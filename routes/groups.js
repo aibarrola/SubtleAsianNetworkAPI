@@ -60,27 +60,6 @@ router.route('/:id').get((req, res) => {
 
 })
 
-// @Route   POST groups/link/:id/add
-// @desc    Adds a link to a specific group
-// @access  Private BUT PUBLIC FOR TESTING NOW
-router.route('/link/:id/add').post(/**auth,**/(req,res)=>{
-
-    Group.findById(req.params.id)
-    .then(group =>{
-       /**  if(group.users.include(req.user.user_id)){**/
-        const links = group.links;
-        links.push(req.body.link);
-        group.save()
-        .then(()=>res.json("Link added"))
-        .catch(err => res.status(400).json('Error: ' + err))
-       /**  }else{
-            res.status(400).json({ msg: 'User not authenticated to post'})
-        }**/
-    })
-    .catch(err => res.status(400).json('Error: ' + err))
-
-})
-
 // @Route   POST /groups/todo/:id/add
 // @desc    Adds a todo to a specific group
 // @access  Private BUT PUBLIC FOR TESTING NOW
@@ -124,4 +103,76 @@ router.route('/user/:id/add').post(/**auth,**/(req,res)=>{
 
 })
 
+// @Route   POST /groups/user/:id/delete
+// @desc    Delete a user to a specific group
+// @access  Private BUT PUBLIC FOR TESTING NOW
+router.route('/user/:id/delete').post(/**auth,**/(req,res)=>{
+
+  Group.findOneAndUpdate({"_id": req.params.id},{
+      $pull:{
+          "users" : req.body.userId
+      }
+  }, (err, updated)=>{
+    if (err) throw err;
+    res.send(updated);
+  }
+  )
+
+})
+
+
+// @Route   POST /groups/todo/:id/delete
+// @desc    Deletes a todo to a specific group
+// @access  Private BUT PUBLIC FOR TESTING NOW
+router.route('/todo/:id/delete').post(/**auth,**/(req,res)=>{
+
+    Group.findOneAndUpdate({"_id": req.params.id},{
+        $pull:{
+            'toDos' : {'_id': req.body.todoId}
+        }
+    }, (err, updated)=>{
+      if (err) throw err;
+      res.send(updated);
+    }
+    )
+  
+  })
+
+
+ // @Route   POST /groups/post/:id/delete
+// @desc    Deletes a post to a specific group
+// @access  Private BUT PUBLIC FOR TESTING NOW
+router.route('/post/:id/delete').post(/**auth,**/(req,res)=>{
+
+    Group.findOneAndUpdate({"_id": req.params.id},{
+        $pull:{
+            'posts' : {'_id': req.body.postId}
+        }
+    }, (err, updated)=>{
+      if (err) throw err;
+      res.send(updated);
+    }
+    )
+  
+  }) 
+
+// @Route   POST /groups/:id/update
+// @desc    update the description, groupName, and link of group
+// @access  Private BUT PUBLIC FOR TESTING NOW
+router.route('/:id/update').post((req,res)=>{
+
+    const{groupName, description, link} = req.body;
+    Group.findOneAndUpdate({"_id": req.params.id},{
+        $set:{
+            groupName, description, link
+        }
+    },{new: true}, (err, updated)=>{
+      if (err) throw err;
+      res.send(updated);
+    }
+    )
+  
+  })
+
+router.route('')
 module.exports = router;

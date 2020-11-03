@@ -16,7 +16,10 @@ const groupSchema = new mongoose.Schema ({
     type: String,
     required: true
   },
-  links:[String],
+  link:{
+    type: String,
+    default : ''
+  },
   toDos:[toDoSchema],
   posts: [postSchema],
   admin: [{type: mongoose.Schema.Types.ObjectId, 
