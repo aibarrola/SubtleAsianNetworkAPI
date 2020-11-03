@@ -163,13 +163,13 @@ router.route('/:id/createprofile/1').post(auth, (req, res) => {
 // @desc    Send form from createprofile2 and update user
 // @access  PRIVATE
 router.route('/:id/createprofile/2').post(auth, (req, res) => {
-    const { location, interests, bio } = req.body;
+    const { location, interests, bio, group } = req.body;
     const id = req.params.id;
 
     User.findOneAndUpdate({"_id": id}, {
         $set: {
-            location, interests, bio
-        }
+            location, interests, bio, group
+        },
     }, {new: true}, (err, updated) => {
         if (err) throw err;
         res.send(updated);
