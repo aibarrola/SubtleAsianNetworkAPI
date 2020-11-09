@@ -20,6 +20,9 @@ const groupSchema = new mongoose.Schema ({
     type: String,
     default : ''
   },
+  percent:{
+    type: Number,
+  },
   toDos:[toDoSchema],
   posts: [postSchema],
   admin: [{type: mongoose.Schema.Types.ObjectId, 
