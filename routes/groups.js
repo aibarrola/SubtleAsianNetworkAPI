@@ -137,7 +137,20 @@ router.route('/todo/:id/delete').post(/**auth,**/(req,res)=>{
     )
   
   })
-
+// @Route   POST /groups/todo/:id/update
+// @desc    Updates a todo to a specific group
+// @access  Private BUT PUBLIC FOR TESTING NOW
+router.route('/todo/:id/update').post((req,res)=>{
+    Group.findOneAndUpdate({"_id": req.params.id, "toDos._id": req.body.todoId},{
+        $set:{
+            'toDos.$.checked' : req.body.todoBoolean
+        }
+    }, (err, updated)=>{
+      if (err) throw err;
+      res.send(updated);
+    }
+    )
+})
 
  // @Route   POST /groups/post/:id/delete
 // @desc    Deletes a post to a specific group
