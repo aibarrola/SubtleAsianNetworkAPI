@@ -161,7 +161,7 @@ router.route('/post/:id/delete').post(/**auth,**/(req,res)=>{
 // @access  Private BUT PUBLIC FOR TESTING NOW
 router.route('/:id/update').post((req,res)=>{
 
-    const{groupName, description, link} = req.body;
+    const{groupName, description, link, percent} = req.body;
     Group.findOneAndUpdate({"_id": req.params.id},{
         $set:{
             groupName, description, link, percent
