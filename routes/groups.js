@@ -164,7 +164,7 @@ router.route('/:id/update').post((req,res)=>{
     const{groupName, description, link} = req.body;
     Group.findOneAndUpdate({"_id": req.params.id},{
         $set:{
-            groupName, description, link
+            groupName, description, link, percent
         }
     },{new: true}, (err, updated)=>{
       if (err) throw err;
