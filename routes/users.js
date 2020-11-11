@@ -30,7 +30,7 @@ router.route('/:id').get((req, res) => {
 // @access  Public
 router.route('/register').post((req,res)=>{
     const BCRYPT_SALT_ROUNDS =12;
-    const { firstName, lastName, email, birthDate, password} = req.body;
+    const { firstName, lastName, email, password} = req.body;
 
     // Validation
     if (!firstName || !lastName || !email || !password) {
@@ -49,7 +49,7 @@ router.route('/register').post((req,res)=>{
             let hashedPassword = bcrypt.hashSync(password, BCRYPT_SALT_ROUNDS);
 
             // Create newUser
-            const newUser = new User({firstName, lastName, hashedPassword, birthDate, email});
+            const newUser = new User({firstName, lastName, hashedPassword, email});
             
             // Save the newUser
             newUser.save()
