@@ -217,6 +217,17 @@ router.route('/forgotpassword').post((req, res) => {
             pass: `${process.env.EMAIL_PASSWORD}`
           }
         });
+
+        const mailOptions = {
+          from: 'jadeSupportTeam@gmail.com',
+          to: `${user.email}`,
+          subject: 'Jade - Reset Password',
+          text: `Forgot your password? It happens to everyone, we'll get you back into your account with a brand new password! \n\n` +
+                `Please click on the link below to reset your password. This link is valid for the next 30 minutes. \n\n` +
+                `https://san-api.heroku.app/users/ \n\n` +
+                `If you didn't request this email, please ignore this email. To be extra safe, we suggest that you change your password.\n`
+        };
+
       }
     });
 })
