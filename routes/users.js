@@ -182,7 +182,20 @@ router.route('/:id/createprofile/2').post(auth, (req, res) => {
 // @desc    Generate password token and send email
 // @access  PUBLIC
 router.route('/forgotpassword').post((req, res) => {
-  res.send('forgot password route');
+  if (req.body.email === '') {
+    res.status(400).send('email required');
+  }
+
+  User.findOne({email: req.body.email})
+    .then( user => {
+      if (user === null) {
+        console.error('email is not in the database');
+        res.status(403).send('email is not in the database');
+      } else {
+        const token = crypto.randomBytes(20).toString('hex');
+        res.send(token);
+      }
+    });
 })
 
 module.exports = router;
