@@ -228,6 +228,15 @@ router.route('/forgotpassword').post((req, res) => {
                 `If you didn't request this email, please ignore this email. To be extra safe, we suggest that you change your password.\n`
         };
 
+        transporter.sendMail(mailOptions, (err, response) => {
+          if (err) {
+            console.error('There was an error: ' + err);
+          } else {
+            console.log('here is the res: ' + response);
+            res.status(200).json(`Recovery email sent to: ${user.email}`);
+          }
+        });
+
       }
     });
 })
