@@ -178,4 +178,11 @@ router.route('/:id/createprofile/2').post(auth, (req, res) => {
     })
 });
 
+// @route   PUT /users/forgotpassword
+// @desc    Generate password token and send email
+// @access  PUBLIC
+router.route('/forgotpassword').post((req, res) => {
+  res.send('forgot password route');
+})
+
 module.exports = router;
