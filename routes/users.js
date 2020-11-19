@@ -208,8 +208,15 @@ router.route('/forgotpassword').post((req, res) => {
         const token = crypto.randomBytes(20).toString('hex');
         
         user.resetPasswordToken = token;
-        user.resetPasswordExpires = Date.now() + 1800000; // Create minute expiration
+        user.resetPasswordExpires = Date.now() + 1800000; // Create 30 minute expiration
 
+        const transporter = nodemailer.createTransport({
+          service: 'Gmail',
+          auth: {
+            user: `${process.env.EMAIL_ADDRESS}`,
+            pass: `${process.env.EMAIL_PASSWORD}`
+          }
+        });
       }
     });
 })
