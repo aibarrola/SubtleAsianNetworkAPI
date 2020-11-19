@@ -219,7 +219,7 @@ router.route('/forgotpassword').post((req, res) => {
         });
 
         const mailOptions = {
-          from: '"SupportTeam" <jadeSupportTeam@gmail.com>',
+          from: '"Jade Support Team" <jadeSupportTeam@gmail.com>',
           to: `${user.email}`,
           subject: 'Jade - Reset Password',
           text: `Forgot your password? It happens to everyone, we'll get you back into your account with a brand new password! \n\n` +
