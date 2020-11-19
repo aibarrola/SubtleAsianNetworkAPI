@@ -203,6 +203,7 @@ router.route('/forgotpassword').post((req, res) => {
     .then( user => {
       if (user === null) {
         console.error('email is not in the database');
+        console.log(req.body.email);
         res.status(403).send('email is not in the database');
       } else {
         const token = crypto.randomBytes(20).toString('hex');
@@ -221,10 +222,10 @@ router.route('/forgotpassword').post((req, res) => {
         const mailOptions = {
           from: '"Jade Support Team" <jadeSupportTeam@gmail.com>',
           to: `${user.email}`,
-          subject: 'Jade - Reset Password',
+          subject: 'Reset Password',
           text: `Forgot your password? It happens to everyone, we'll get you back into your account with a brand new password! \n\n` +
                 `Please click on the link below to reset your password. This link is valid for the next 30 minutes. \n\n` +
-                `https://san-api.herokuapp.com/ \n\n` +
+                `http://localhost:3000/resetpassword/${token} \n\n` +
                 `If you didn't request this email, please ignore this email. To be extra safe, we suggest that you change your password.\n`
         };
 
@@ -240,5 +241,29 @@ router.route('/forgotpassword').post((req, res) => {
       }
     });
 })
+
+// @route   GET /users/reset
+// @desc    Checks if there is a valid reset token
+// @access  PUBLIC
+router.route('/reset').get((req, res) => {
+  User.findOne({
+    where: {
+      resetPasswordToken: req.query.resetPasswordToken,
+      resetPasswordExpires: {
+        [Op.gt]: Date.now(),
+      },
+    },
+  }).then( user => {
+    if (user == null) {
+      console.error('password reset link is invalid or has expired');
+      res.status(403).send('password reset link is invalid or has expired');
+    } else {
+      res.status(200).send({
+        username: user.firstName + ' ' + user.lastName,
+        message: 'password success'
+      });
+    }
+  });
+});
 
 module.exports = router;
