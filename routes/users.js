@@ -29,7 +29,7 @@ router.route('/:id').get((req, res) => {
 // @Route   DELETE /users/:id
 // @desc    Delete a specific user
 // @access  TEMP
-router.route('/:id').get((req, res) => {
+router.route('/:id').delete((req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then(user => {
       res.json(`User: ${user.firstName} ${user.lastName} ${user._id} has been deleted.`)
