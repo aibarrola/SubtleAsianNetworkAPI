@@ -206,7 +206,10 @@ router.route('/forgotpassword').post((req, res) => {
         res.status(403).send('email is not in the database');
       } else {
         const token = crypto.randomBytes(20).toString('hex');
-        res.send(token);
+        
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 1800000; // Create minute expiration
+
       }
     });
 })
