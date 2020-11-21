@@ -210,6 +210,7 @@ router.route('/forgotpassword').post((req, res) => {
         
         user.resetPasswordToken = token;
         user.resetPasswordExpires = Date.now() + 1800000; // Create 30 minute expiration
+        user.save();
 
         const transporter = nodemailer.createTransport({
           service: 'Gmail',
@@ -239,31 +240,27 @@ router.route('/forgotpassword').post((req, res) => {
         });
 
       }
-    });
+    })
+    .catch(err => {
+      res.send(err);
+    })
 })
 
 // @route   GET /users/reset
 // @desc    Checks if there is a valid reset token
 // @access  PUBLIC
-router.route('/reset').get((req, res) => {
-  User.findOne({
-    where: {
-      resetPasswordToken: req.query.resetPasswordToken,
-      resetPasswordExpires: {
-        [Op.gt]: Date.now(),
-      },
-    },
-  }).then( user => {
-    if (user == null) {
-      console.error('password reset link is invalid or has expired');
-      res.status(403).send('password reset link is invalid or has expired');
-    } else {
-      res.status(200).send({
-        username: user.firstName + ' ' + user.lastName,
-        message: 'password success'
-      });
-    }
-  });
+router.route('/reset/:token').get((req, res) => {
+  User.findOne({resetPasswordToken: req.params.token})
+    .then(user => {
+      if (user.resetPasswordExpires > Date.now()) {
+        res.json({message: 'valid token', firstName: user.firstName, lastName: user.lastName});
+      } else {
+        res.status(403).json({message: 'invalid token'});
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
 });
 
 module.exports = router;
