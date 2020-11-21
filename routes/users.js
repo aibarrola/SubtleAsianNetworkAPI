@@ -246,7 +246,7 @@ router.route('/forgotpassword').post((req, res) => {
     })
 })
 
-// @route   GET /users/reset
+// @route   GET /users/reset/:token
 // @desc    Checks if there is a valid reset token
 // @access  PUBLIC
 router.route('/reset/:token').get((req, res) => {
@@ -261,6 +261,31 @@ router.route('/reset/:token').get((req, res) => {
     .catch(err => {
       console.log(err);
     })
+});
+
+// @route   POST /users/reset/:id
+// @desc    Resets users password
+// @access  PUBLIC
+router.route('/reset/:id').post((req, res) => {
+  const BCRYPT_SALT_ROUNDS = 12;
+  const { password } = req.body;
+  const { id } = req.params;
+
+  let hashedPassword = bcrypt.hashSync(password, BCRYPT_SALT_ROUNDS);
+
+  const update = {
+    hashedPassword
+  }
+
+  User.findByIdAndUpdate(id, update, (err, result) => {
+    if(err) {
+      console.log(err);
+      res.json({status: 'error'});
+    } else {
+      res.json({status: 'ok'});
+    }
+  })
+
 });
 
 module.exports = router;
