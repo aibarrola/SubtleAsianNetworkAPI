@@ -233,9 +233,10 @@ router.route('/forgotpassword').post((req, res) => {
         transporter.sendMail(mailOptions, (err, response) => {
           if (err) {
             console.error('There was an error: ' + err);
+            res.json({status: 'error'});
           } else {
             console.log('here is the res: ' + response);
-            res.status(200).json(`Recovery email sent to: ${user.email}`);
+            res.status(200).json({status: 'ok'});
           }
         });
 
@@ -253,7 +254,7 @@ router.route('/reset/:token').get((req, res) => {
   User.findOne({resetPasswordToken: req.params.token})
     .then(user => {
       if (user.resetPasswordExpires > Date.now()) {
-        res.json({message: 'valid token', firstName: user.firstName, lastName: user.lastName});
+        res.json({message: 'valid token', firstName: user.firstName, lastName: user.lastName, userID: user._id});
       } else {
         res.status(403).json({message: 'invalid token'});
       }
