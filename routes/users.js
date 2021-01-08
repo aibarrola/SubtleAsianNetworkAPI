@@ -210,6 +210,7 @@ router.route('/forgotpassword').post((req, res) => {
         
         user.resetPasswordToken = token;
         user.resetPasswordExpires = Date.now() + 1800000; // Create 30 minute expiration
+        user.save();
 
         const transporter = nodemailer.createTransport({
           service: 'Gmail',
@@ -232,38 +233,60 @@ router.route('/forgotpassword').post((req, res) => {
         transporter.sendMail(mailOptions, (err, response) => {
           if (err) {
             console.error('There was an error: ' + err);
+            res.json({status: 'error'});
           } else {
             console.log('here is the res: ' + response);
-            res.status(200).json(`Recovery email sent to: ${user.email}`);
+            res.status(200).json({status: 'ok'});
           }
         });
 
       }
-    });
+    })
+    .catch(err => {
+      res.send(err);
+    })
 })
 
-// @route   GET /users/reset
+// @route   GET /users/reset/:token
 // @desc    Checks if there is a valid reset token
 // @access  PUBLIC
-router.route('/reset').get((req, res) => {
-  User.findOne({
-    where: {
-      resetPasswordToken: req.query.resetPasswordToken,
-      resetPasswordExpires: {
-        [Op.gt]: Date.now(),
-      },
-    },
-  }).then( user => {
-    if (user == null) {
-      console.error('password reset link is invalid or has expired');
-      res.status(403).send('password reset link is invalid or has expired');
+router.route('/reset/:token').get((req, res) => {
+  User.findOne({resetPasswordToken: req.params.token})
+    .then(user => {
+      if (user.resetPasswordExpires > Date.now()) {
+        res.json({message: 'valid token', firstName: user.firstName, lastName: user.lastName, userID: user._id});
+      } else {
+        res.status(403).json({message: 'invalid token'});
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+});
+
+// @route   POST /users/reset/:id
+// @desc    Resets users password
+// @access  PUBLIC
+router.route('/reset/:id').post((req, res) => {
+  const BCRYPT_SALT_ROUNDS = 12;
+  const { password } = req.body;
+  const { id } = req.params;
+
+  let hashedPassword = bcrypt.hashSync(password, BCRYPT_SALT_ROUNDS);
+
+  const update = {
+    hashedPassword
+  }
+
+  User.findByIdAndUpdate(id, update, (err, result) => {
+    if(err) {
+      console.log(err);
+      res.json({status: 'error'});
     } else {
-      res.status(200).send({
-        username: user.firstName + ' ' + user.lastName,
-        message: 'password success'
-      });
+      res.json({status: 'ok'});
     }
-  });
+  })
+
 });
 
 module.exports = router;
