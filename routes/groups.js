@@ -188,5 +188,4 @@ router.route('/:id/update').post((req,res)=>{
 })
 
 
-router.route('')
 module.exports = router;

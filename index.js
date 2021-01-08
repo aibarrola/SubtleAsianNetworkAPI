@@ -31,6 +31,14 @@ app.use('/users', userRouter);
 const groupRouter = require('./routes/groups');
 app.use('/groups', groupRouter);
 
+//Cohert routes
+const cohertRouter = require('./routes/cohert');
+app.use('/coherts', cohertRouter);
+
+//Request routes
+const requestRouter = require('./routes/request');
+app.use('/requests', requestRouter);
+
 // Temp route to delete all users
 app.delete('/getall', (req, res) => {
   User.deleteMany({})

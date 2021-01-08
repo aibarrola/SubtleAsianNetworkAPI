@@ -13,8 +13,13 @@ router.route('/').post((req,res)=>{
 router.route('/').get((req,res)=>{
     Request.find({})
     .then(requests => res.send(requests))
-})
+});
 
-router.route('/:id/status').patch((req, res)=>{
+router.route('/:id/status').put((req, res)=>{
+    Request.findOneAndUpdate({"_id": req.params.id},
+    {$set: {'status': req.body.status}}, {new: true})
+    .then(newRequest=>res.send(newRequest))
+    .catch(err=>res.json("Error: " +err))
+});
 
-})
+module.exports = router;
