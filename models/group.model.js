@@ -28,7 +28,7 @@ const groupSchema = new mongoose.Schema ({
   admin: [{type: mongoose.Schema.Types.ObjectId, 
     ref: 'User'}],
   users: [{type: mongoose.Schema.Types.ObjectId, 
-          ref: 'User'}]
+          ref: 'User'}],
 })
 
 const Group = mongoose.model('Group', groupSchema);
