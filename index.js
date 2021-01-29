@@ -24,27 +24,27 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', console.error.bind(console, 'Connection error: '));
 
 // User routes
-const userRouter = require('./routes/users');
-app.use('/users', userRouter);
+// const userRouter = require('./routes/users');
+// app.use('/users', userRouter);
 
 //Group routes
-const groupRouter = require('./routes/groups');
-app.use('/groups', groupRouter);
+// const groupRouter = require('./routes/groups');
+// app.use('/groups', groupRouter);
 
 //Cohert routes
-const cohertRouter = require('./routes/cohert');
-app.use('/coherts', cohertRouter);
+// const cohertRouter = require('./routes/cohert');
+// app.use('/coherts', cohertRouter);
 
 //Request routes
-const requestRouter = require('./routes/request');
-app.use('/requests', requestRouter);
+// const requestRouter = require('./routes/request');
+// app.use('/requests', requestRouter);
 
 // Temp route to delete all users
-app.delete('/getall', (req, res) => {
-  User.deleteMany({})
-    .then(res.json({msg: 'All users deleted'}))
-    .catch(err => res.send(err));
-})
+// app.delete('/getall', (req, res) => {
+//   User.deleteMany({})
+//     .then(res.json({msg: 'All users deleted'}))
+//     .catch(err => res.send(err));
+// })
 
 // process.env.PORT is an environment variable. Needs to be setup with "dotenv"
 // Contact John for help
