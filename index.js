@@ -24,8 +24,8 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', console.error.bind(console, 'Connection error: '));
 
 // User routes
-// const userRouter = require('./routes/users');
-// app.use('/users', userRouter);
+const userRouter = require('./routes/users');
+app.use('/users', userRouter);
 
 //Group routes
 // const groupRouter = require('./routes/groups');
