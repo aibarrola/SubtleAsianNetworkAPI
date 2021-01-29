@@ -28,8 +28,8 @@ const userRouter = require('./routes/users');
 app.use('/users', userRouter);
 
 //Group routes
-// const groupRouter = require('./routes/groups');
-// app.use('/groups', groupRouter);
+const groupRouter = require('./routes/groups');
+app.use('/groups', groupRouter);
 
 //Cohert routes
 // const cohertRouter = require('./routes/cohert');
