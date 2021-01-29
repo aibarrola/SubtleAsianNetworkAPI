@@ -68,14 +68,14 @@ router.route('/register').post((req,res)=>{
             
             // Save the newUser
             newUser.save()
-                .then(user => {
+                .then(newRegUser => {
                     // JSON Web Token Payload
                     // Message John for the JWT_SECRET
                     jwt.sign(
                         // Send back the USER ID
                         {
-                            user_id: user.id,
-                            admin: user.admin
+                            user_id: newRegUser.id,
+                            admin: newRegUser.admin
                         },
                         // Pass on JWT_SECRET
                         process.env.JWT_SECRET,
@@ -86,11 +86,11 @@ router.route('/register').post((req,res)=>{
                                 // Send back token
                                 token,
                                 // Send back user
-                                user: {
-                                    user_id: user.id,
-                                    firstName: user.firstName,
-                                    lastName: user.lastName,
-                                    email: user.email
+                                newRegUser: {
+                                    user_id: newRegUser.id,
+                                    firstName: newRegUser.firstName,
+                                    lastName: newRegUser.lastName,
+                                    email: newRegUser.email
                             }})
                         }
                     )
@@ -204,7 +204,7 @@ router.route('/forgotpassword').post((req, res) => {
       if (user === null) {
         console.error('email is not in the database');
         console.log(req.body.email);
-        res.status(403).send('email is not in the database');
+        res.status(403).json({status: 'fail'});
       } else {
         const token = crypto.randomBytes(20).toString('hex');
         
