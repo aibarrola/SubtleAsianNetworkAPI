@@ -1,5 +1,5 @@
 const Cohert = require('../models/cohert.model');
-const router = require('Express').Router();
+const router = require('express').Router();
 
 router.route('/').post((req, res) =>{
     const {school, organization, leadID} = req.body;
