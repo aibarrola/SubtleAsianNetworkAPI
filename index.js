@@ -31,9 +31,9 @@ app.use('/users', userRouter);
 const groupRouter = require('./routes/groups');
 app.use('/groups', groupRouter);
 
-//Cohert routes
-const cohertRouter = require('./routes/cohert');
-app.use('/coherts', cohertRouter);
+//Cohort routes
+const cohortRouter = require('./routes/cohort');
+app.use('/cohorts', cohortRouter);
 
 //Request routes
 const requestRouter = require('./routes/request');
