@@ -1,6 +1,9 @@
 const Cohort = require('../models/cohort.model');
 const router = require('express').Router();
 
+// Middle ware
+const auth = require('./middleware/auth');
+
 // @route   GET /cohorts/
 // @desc    Returns all coherts
 // @access  Public
@@ -26,15 +29,23 @@ router.route('/').delete((req, res) => {
 // @route   POST /cohorts/
 // @desc    Creates a new cohert
 // @access  Public for now, going to change it to a private path
-router.route('/').post((req, res) => {
-  const {name, school, org} = req.body;
-  const newCohort = new Cohort({name, school, org});
+router.route('/').post(auth, (req, res) => {
+  const {cohortName, cohortSchool, cohortOrg, adminUser} = req.body;
+  const newCohort = new Cohort({cohortName, cohortSchool, cohortOrg, adminUser});
+
+  const testCohort = {
+    cohortName,
+    cohortSchool,
+    cohortOrg,
+    adminUser
+  }
 
   newCohort.save()
     .then(newRegCohort => {
       res.send('Success');
     })
     .catch (err => res.status(400).json('Error: ' + err));
+
 })
 
 module.exports = router;
