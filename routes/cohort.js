@@ -33,13 +33,6 @@ router.route('/').post((req, res) => {
   const {cohortName, cohortSchool, cohortOrg, adminUser} = req.body;
   const newCohort = new Cohort({cohortName, cohortSchool, cohortOrg, adminUser});
 
-  const testCohort = {
-    cohortName,
-    cohortSchool,
-    cohortOrg,
-    adminUser
-  }
-
   newCohort.save()
     .then(newRegCohort => {
       res.send('Success');
