@@ -29,7 +29,7 @@ router.route('/').delete((req, res) => {
 // @route   POST /cohorts/
 // @desc    Creates a new cohert
 // @access  Public for now, going to change it to a private path
-router.route('/').post(auth, (req, res) => {
+router.route('/').post((req, res) => {
   const {cohortName, cohortSchool, cohortOrg, adminUser} = req.body;
   const newCohort = new Cohort({cohortName, cohortSchool, cohortOrg, adminUser});
 
