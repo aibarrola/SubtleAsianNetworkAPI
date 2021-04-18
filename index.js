@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-  console.log("index.js", req.body)
   res.send('You made it to the api');
 });
 
