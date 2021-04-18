@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
+  console.log("index.js", req.body)
   res.send('You made it to the api');
 });
 
@@ -38,6 +39,11 @@ app.use('/cohorts', cohortRouter);
 //Request routes
 const requestRouter = require('./routes/request');
 app.use('/requests', requestRouter);
+
+//questions routes
+const questionRouter = require('./routes/questions');
+app.use('/questions', questionRouter);
+
 
 // Temp route to delete all users
 app.delete('/getall', (req, res) => {
